@@ -2,22 +2,35 @@ package com.javmb.studentscli.config;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@ConfigurationProperties(prefix = "notas")
+@Component
+@ConfigurationProperties(prefix = "app")
+@Data
 public class Config {
+    private Mark mark;
+    private Validation validation;
+    private Files files;
 
-    @Min(0)
-    private float min = 0;
+    @Data
+    public static class Mark {
+        @Min(0)
+        private double min = 0.0;
+        @Max(10)
+        private double max = 10.0;
+    }
 
-    @Max(10)
-    private float max = 10;
+    @Data
+    public static class Validation {
+        private boolean enabled = true;
+    }
 
-    public float getMin() { return min; }
-    public void setMin(float min) { this.min = min; }
-
-    public float getMax() { return max; }
-    public void setMax(float max) { this.max = max; }
+    @Data
+    public static class Files {
+        private String studentsCsv = "data/students.csv";
+        private String studentsXml = "data/students.xml";
+        private String studentsAvgXml = "data/students_with_average.xml";
+    }
 }

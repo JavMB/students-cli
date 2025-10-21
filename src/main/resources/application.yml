@@ -2,23 +2,21 @@ spring:
   application:
     name: students-cli
 
-# Logging
+
 logging:
   level:
     com.javmb.studentscli: DEBUG
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
-# Configuración por defecto
+
 app:
   mark:
     min: 0.0
     max: 10.0
   validation:
     enabled: true
-
-# Archivos
   files:
-    students-csv: students.csv
-    students-xml: students.xml
-    students-avg-xml: students_with_average.xml
+    students-csv: data/students.csv
+    students-xml: data/students.xml
+    students-avg-xml: data/students_with_average.xml
