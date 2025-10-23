@@ -50,7 +50,7 @@ public class AddStudentsViaDomHandler {
                     students.size(),
                     config.getFiles().getStudentsCsv(),
                     config.getFiles().getStudentsXml(), ex);
-            throw new IllegalStateException("No se pudo completar la operación. Revisa logs.", ex);
+            throw new IllegalStateException("No se pudo completar la operación: " + ex.getMessage(), ex);
         }
     }
 }
