@@ -5,7 +5,7 @@ spring:
 
 logging:
   level:
-    com.javmb.studentscli: DEBUG
+    com.javmb.studentscli: ERROR
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 

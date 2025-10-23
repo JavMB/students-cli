@@ -43,12 +43,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Apache Commons CSV - Manejo profesional de CSV -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-            <version>1.11.0</version>
-        </dependency>
+
 
         <!-- Jackson - JSON serialization -->
         <dependency>
