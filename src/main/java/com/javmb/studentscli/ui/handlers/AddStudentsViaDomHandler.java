@@ -29,28 +29,22 @@ public class AddStudentsViaDomHandler {
         this.studentsConverter = Objects.requireNonNull(studentsConverter, "studentsConverter must not be null");
     }
 
-    public void handle(List<Student> students) {
+    public boolean handle(List<Student> students) {
         if (students == null || students.isEmpty()) {
-            log.warn("No hay estudiantes para procesar. csv={} xml={}",
-                    config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml());
-            return;
+            log.warn("No hay estudiantes para procesar");
+            return false;
         }
-
 
         try {
             studentsSerializer.serialize(students, config.getFiles().getStudentsCsv());
             studentsConverter.convert(config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml());
-
-        } catch (IllegalArgumentException iae) {
-            log.warn("Error de validación procesando {} estudiantes: {} csv={}",
-                    students.size(), iae.getMessage(), config.getFiles().getStudentsCsv(), iae);
-            throw iae;
+            log.info("Procesados {} estudiantes correctamente - csv={} xml={}",
+                    students.size(), config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml());
+            return true;
         } catch (Exception ex) {
-            log.error("Fallo procesando estudiantes - count={} csv={} xml={}",
-                    students.size(),
-                    config.getFiles().getStudentsCsv(),
-                    config.getFiles().getStudentsXml(), ex);
-            throw new IllegalStateException("No se pudo completar la operación: " + ex.getMessage(), ex);
+            log.error("Error procesando estudiantes - count={} csv={} xml={}",
+                    students.size(), config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml(), ex);
+            return false;
         }
     }
 }

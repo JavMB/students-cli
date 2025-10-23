@@ -1,7 +1,7 @@
 package com.javmb.studentscli.util;
 
 import lombok.experimental.UtilityClass;
-import org.w3c.dom.Document;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -56,30 +56,51 @@ public class XmlUtils {
     /**
      * Escribe un documento XML a un archivo con formato e indentación.
      *
-     * @param doc Document a escribir
+     * @param doc            Document a escribir
      * @param outputFilePath ruta del archivo de salida
-     * @throws IOException si hay error al crear directorios
+     * @throws IOException          si hay error al crear directorios
      * @throws TransformerException si hay error al escribir el XML
      */
     public static void writeDocument(Document doc, String outputFilePath) throws IOException, TransformerException {
         Path outputPath = Path.of(outputFilePath);
 
-        // Crear directorios si no existen
         if (outputPath.getParent() != null) {
             Files.createDirectories(outputPath.getParent());
         }
 
+        doc.getDocumentElement().normalize();
+        removeWhitespaces(doc.getDocumentElement());
+
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
 
-        // Configuración de formato
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
+
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(new File(outputFilePath));
         transformer.transform(source, result);
+    }
+
+    /**
+     * Elimina nodos de texto que solo contienen espacios en blanco.
+     * Referencia: https://stackoverflow.com/questions/64650281/how-to-remove-extra-indent-in-xml-dom-in-java
+     *
+     * @param element elemento a limpiar recursivamente
+     */
+    public static void removeWhitespaces(Element element) {
+        NodeList children = element.getChildNodes();
+        for (int i = children.getLength() - 1; i >= 0; i--) {
+            Node child = children.item(i);
+            if (child instanceof Text
+                    && ((Text) child).getData().trim().isEmpty()) {
+                element.removeChild(child);
+            } else if (child instanceof Element) {
+                removeWhitespaces((Element) child);
+            }
+        }
     }
 }
 
