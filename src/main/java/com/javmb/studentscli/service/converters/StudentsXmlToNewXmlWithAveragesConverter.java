@@ -22,9 +22,7 @@ public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConvert
             Document doc = XmlUtils.readDocument(inputFilePath);
             processStudentsWithAverages(doc);
             XmlUtils.writeDocument(doc, outputFilePath);
-            log.info("Successfully created XML with averages - input={} output={}", inputFilePath, outputFilePath);
         } catch (Exception e) {
-            log.error("Error al convertir XML a XML con medias - input={} output={}", inputFilePath, outputFilePath, e);
             throw new CsvToXmlException("Error al convertir XML a XML con medias", e);
         }
     }
@@ -43,9 +41,6 @@ public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConvert
             Element averageElement = doc.createElement("markAverage");
             averageElement.setTextContent(String.format(Locale.US, "%.2f", average));
             studentElement.appendChild(averageElement);
-
-            log.debug("Calculated average for student id={}: mark1={} mark2={} avg={}",
-                    studentElement.getAttribute("id"), mark1, mark2, average);
         }
     }
 
@@ -55,7 +50,6 @@ public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConvert
 
         if (markNodes.getLength() == 0) {
             String errorMsg = String.format("Falta %s para estudiante id=%s", markTagName, studentId);
-            log.error(errorMsg);
             throw new InvalidMarkException(errorMsg);
         }
 
@@ -65,7 +59,6 @@ public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConvert
         } catch (NumberFormatException e) {
             String errorMsg = String.format("Valor inválido para %s en estudiante id=%s: '%s'",
                     markTagName, studentId, markText);
-            log.error(errorMsg);
             throw new InvalidMarkException(errorMsg, e);
         }
     }
