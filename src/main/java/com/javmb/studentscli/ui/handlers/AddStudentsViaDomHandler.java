@@ -2,6 +2,8 @@
 package com.javmb.studentscli.ui.handlers;
 
 import com.javmb.studentscli.config.Config;
+import com.javmb.studentscli.exception.CsvToXmlException;
+import com.javmb.studentscli.exception.CsvWriteException;
 import com.javmb.studentscli.model.Student;
 import com.javmb.studentscli.service.interfaces.StudentsConverter;
 import com.javmb.studentscli.service.interfaces.StudentsSerializer;
@@ -38,13 +40,18 @@ public class AddStudentsViaDomHandler {
         try {
             studentsSerializer.serialize(students, config.getFiles().getStudentsCsv());
             studentsConverter.convert(config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml());
-            log.info("Procesados {} estudiantes correctamente - csv={} xml={}",
-                    students.size(), config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml());
+            log.info("Procesados {} estudiantes correctamente", students.size());
             return true;
+        } catch (CsvWriteException ex) {
+            log.error("Error escribiendo CSV: {}", ex.getMessage());
+            return false;
+        } catch (CsvToXmlException ex) {
+            log.error("Error convirtiendo CSV a XML: {}", ex.getMessage());
+            return false;
         } catch (Exception ex) {
-            log.error("Error procesando estudiantes - count={} csv={} xml={}",
-                    students.size(), config.getFiles().getStudentsCsv(), config.getFiles().getStudentsXml(), ex);
+            log.error("Error inesperado: {}", ex.getMessage());
             return false;
         }
+
     }
 }

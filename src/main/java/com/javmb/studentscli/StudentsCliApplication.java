@@ -2,8 +2,6 @@ package com.javmb.studentscli;
 
 
 import com.javmb.studentscli.ui.MenuManager;
-import com.javmb.studentscli.util.lib.ConsoleMenu;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +21,8 @@ public class StudentsCliApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         menuManager.showMainMenu();
-
 
     }
 }

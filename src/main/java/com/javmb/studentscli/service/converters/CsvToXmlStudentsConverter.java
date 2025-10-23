@@ -3,15 +3,18 @@ package com.javmb.studentscli.service.converters;
 import com.javmb.studentscli.exception.CsvToXmlException;
 import com.javmb.studentscli.service.interfaces.StudentsConverter;
 import com.javmb.studentscli.util.XmlUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
+@Slf4j
 public class CsvToXmlStudentsConverter implements StudentsConverter {
 
     @Override
@@ -23,18 +26,22 @@ public class CsvToXmlStudentsConverter implements StudentsConverter {
             doc.appendChild(root);
             processLines(reader, headers, doc, root);
             XmlUtils.writeDocument(doc, outputFilePath);
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             throw new CsvToXmlException("Error al convertir CSV a XML", e);
+        } catch (Exception e) {
+            log.error("Error inesperado al convertir CSV a XML ({} -> {})", inputFilePath, outputFilePath, e);
+            throw new CsvToXmlException("Error inesperado al convertir CSV a XML", e);
         }
     }
 
-    private String[] readHeaders(BufferedReader reader) throws Exception {
+    private String[] readHeaders(BufferedReader reader) throws IOException {
         String headerLine = reader.readLine();
         if (headerLine == null) throw new IllegalArgumentException("CSV vacío");
         return headerLine.split(",");
     }
 
-    private void processLines(BufferedReader reader, String[] headers, Document doc, Element root) throws Exception {
+    private void processLines(BufferedReader reader, String[] headers, Document doc, Element root) throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] values = line.split(",");

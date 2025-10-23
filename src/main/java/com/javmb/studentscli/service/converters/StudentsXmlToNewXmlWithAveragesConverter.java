@@ -1,7 +1,6 @@
 package com.javmb.studentscli.service.converters;
 
-import com.javmb.studentscli.exception.CsvToXmlException;
-import com.javmb.studentscli.exception.InvalidMarkException;
+import com.javmb.studentscli.exception.XmlConversionException;
 import com.javmb.studentscli.service.interfaces.StudentsConverter;
 import com.javmb.studentscli.util.XmlUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +21,12 @@ public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConvert
             Document doc = XmlUtils.readDocument(inputFilePath);
             processStudentsWithAverages(doc);
             XmlUtils.writeDocument(doc, outputFilePath);
+            log.info("XML convertido con medias: {}", outputFilePath);
+        } catch (XmlConversionException e) {
+            throw e;
         } catch (Exception e) {
-            throw new CsvToXmlException("Error al convertir XML a XML con medias", e);
+            log.error("Error al convertir XML: {} -> {}", inputFilePath, outputFilePath, e);
+            throw new XmlConversionException("Error al convertir XML", e);
         }
     }
 
@@ -44,23 +47,22 @@ public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConvert
         }
     }
 
+    /**
+     * Extrae el valor de una nota del XML.
+     * Asume que los datos ya fueron validados previamente (responsabilidad del InputValidator).
+     */
     private double extractMarkValue(Element studentElement, String markTagName) {
         String studentId = studentElement.getAttribute("id");
         NodeList markNodes = studentElement.getElementsByTagName(markTagName);
 
         if (markNodes.getLength() == 0) {
-            String errorMsg = String.format("Falta %s para estudiante id=%s", markTagName, studentId);
-            throw new InvalidMarkException(errorMsg);
+            throw new XmlConversionException(String.format("Elemento XML mal formado: falta <%s> para estudiante id=%s", markTagName, studentId));
         }
 
         String markText = markNodes.item(0).getTextContent().trim();
-        try {
-            return Double.parseDouble(markText);
-        } catch (NumberFormatException e) {
-            String errorMsg = String.format("Valor inválido para %s en estudiante id=%s: '%s'",
-                    markTagName, studentId, markText);
-            throw new InvalidMarkException(errorMsg, e);
-        }
+
+        return Double.parseDouble(markText);
+
     }
 
     // por ser solo esto lo dejo aqui pero si no lo sacaria por SRP

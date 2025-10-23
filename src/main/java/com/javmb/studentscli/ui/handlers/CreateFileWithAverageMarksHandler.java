@@ -1,6 +1,7 @@
 package com.javmb.studentscli.ui.handlers;
 
 import com.javmb.studentscli.config.Config;
+import com.javmb.studentscli.exception.XmlConversionException;
 import com.javmb.studentscli.service.interfaces.StudentsConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,10 +24,13 @@ public class CreateFileWithAverageMarksHandler {
     public boolean handle() {
         try {
             studentsConverter.convert(config.getFiles().getStudentsXml(), config.getFiles().getStudentsAvgXml());
-            log.info("Archivo con medias creado - output={}", config.getFiles().getStudentsAvgXml());
+            log.info("Archivo con medias creado: {}", config.getFiles().getStudentsAvgXml());
             return true;
+        } catch (XmlConversionException ex) {
+            log.error("Error al convertir XML con medias: {}", ex.getMessage());
+            return false;
         } catch (Exception ex) {
-            log.error("Error creando archivo con medias - output={}", config.getFiles().getStudentsAvgXml(), ex);
+            log.error("Error inesperado: {}", ex.getMessage());
             return false;
         }
     }
