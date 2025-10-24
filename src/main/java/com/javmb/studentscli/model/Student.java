@@ -14,4 +14,5 @@ public class Student {
     private String name;
     private double mark1;
     private double mark2;
+    private double markAverage;
 }

@@ -57,6 +57,8 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
 
+
+
         <!-- Spring Boot Configuration Processor - Para autocompletar properties -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
