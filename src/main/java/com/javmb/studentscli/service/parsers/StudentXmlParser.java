@@ -2,6 +2,7 @@ package com.javmb.studentscli.service.parsers;
 
 
 import com.javmb.studentscli.model.Student;
+import com.javmb.studentscli.service.parsers.mapper.MapToStudent;
 import com.javmb.studentscli.util.SimpleXmlHandler;
 import org.xml.sax.Attributes;
 
@@ -28,7 +29,7 @@ public class StudentXmlParser extends SimpleXmlHandler {
         super.endElement(uri, localName, qName);
         if (mainElement.equals(qName) && !items.isEmpty()) {
             Map<String, String> last = items.getLast();
-            Student s = MapToStudentConverter.fromMap(last);
+            Student s = MapToStudent.fromMap(last);
             students.add(s);
         }
     }

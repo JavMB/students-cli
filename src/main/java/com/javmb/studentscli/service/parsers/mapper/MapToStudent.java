@@ -1,10 +1,10 @@
-package com.javmb.studentscli.service.parsers;
+package com.javmb.studentscli.service.parsers.mapper;
 
 import com.javmb.studentscli.model.Student;
 import java.util.Map;
 
-public final class MapToStudentConverter {
-    private MapToStudentConverter() { }
+public final class MapToStudent {
+    private MapToStudent() { }
 
     public static Student fromMap(Map<String, String> m) {
         return Student.builder()
