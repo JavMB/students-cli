@@ -75,6 +75,10 @@ public class StudentInputService {
         }
     }
 
+    private String readStudentConfigPath() {
+        return IO.readNonEmptyString("Ruta del archivo de configuración: ").trim();
+    }
+
     private void printHeader() {
         System.out.println("\n=== Añadir Estudiantes ===");
         System.out.println(inputValidator.getMarkRangeInfo());

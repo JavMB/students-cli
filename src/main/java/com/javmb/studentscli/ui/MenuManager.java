@@ -24,6 +24,7 @@ public class MenuManager {
     private final AddStudentsViaDomHandler addStudentsHandler;
     private final CreateFileWithAverageMarksHandler avgMarksHandler;
     private final ListStudentsAndAveragesHandler listStudentsHandler;
+    private final 
     private final StudentInputService studentInputService;
 
     /**
@@ -34,9 +35,14 @@ public class MenuManager {
                 .addOption("Add students and marks via DOM", this::addStudentsOption)
                 .addOption("Create file with average marks", this::createAveragesOption)
                 .addOption("List students with average marks on screen (students_average.xml)",this::listStudents)
+                .addOption("Load config",this::loadConfig)
                 .show();
     }
 
+    private void loadConfig() {
+          studentInputService.readStudentConfigPath();
+
+    }
 
 
     private void addStudentsOption() {
