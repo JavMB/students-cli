@@ -16,7 +16,13 @@ import java.util.Locale;
 @AllArgsConstructor
 public class CsvStudentsSerializer implements StudentsSerializer {
 
-
+    /**
+     * Serializa una lista de estudiantes a un archivo CSV.
+     *
+     * @param students lista de estudiantes a serializar
+     * @param filePath ruta del archivo CSV de salida
+     * @throws CsvWriteException si ocurre un error al escribir el archivo
+     */
     @Override
     public void serialize(List<Student> students, String filePath) {
 

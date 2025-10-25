@@ -31,6 +31,12 @@ public class AddStudentsViaDomHandler {
         this.studentsConverter = Objects.requireNonNull(studentsConverter, "studentsConverter must not be null");
     }
 
+    /**
+     * Procesa y guarda una lista de estudiantes en formato CSV y XML.
+     *
+     * @param students lista de estudiantes a procesar
+     * @return true si el procesamiento fue exitoso, false en caso contrario
+     */
     public boolean handle(List<Student> students) {
         if (students == null || students.isEmpty()) {
             log.warn("No hay estudiantes para procesar");

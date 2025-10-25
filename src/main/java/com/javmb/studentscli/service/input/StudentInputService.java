@@ -33,6 +33,13 @@ public class StudentInputService {
         return Collections.unmodifiableList(students);
     }
 
+    /**
+     * Crea un objeto Student a partir de los datos introducidos por el usuario.
+     *
+     * @param id   identificador del estudiante
+     * @param name nombre del estudiante
+     * @return objeto Student o null si las notas no son válidas
+     */
     public Student getStudentFromInput(int id, String name) {
         try {
             double mark1 = readAndValidateMark("Nota 1er trimestre: ");

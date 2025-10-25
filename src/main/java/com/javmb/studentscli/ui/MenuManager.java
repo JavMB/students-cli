@@ -3,6 +3,7 @@ package com.javmb.studentscli.ui;
 import com.javmb.studentscli.model.Student;
 import com.javmb.studentscli.ui.handlers.AddStudentsViaDomHandler;
 import com.javmb.studentscli.ui.handlers.CreateFileWithAverageMarksHandler;
+import com.javmb.studentscli.ui.handlers.ListStudentsAndAveragesHandler;
 import com.javmb.studentscli.service.input.StudentInputService;
 import com.javmb.studentscli.util.lib.ConsoleMenu;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +23,21 @@ public class MenuManager {
 
     private final AddStudentsViaDomHandler addStudentsHandler;
     private final CreateFileWithAverageMarksHandler avgMarksHandler;
+    private final ListStudentsAndAveragesHandler listStudentsHandler;
     private final StudentInputService studentInputService;
 
+    /**
+     * Muestra el menú principal de la aplicación.
+     */
     public void showMainMenu() {
         new ConsoleMenu("MAIN MENU", true)
                 .addOption("Add students and marks via DOM", this::addStudentsOption)
                 .addOption("Create file with average marks", this::createAveragesOption)
+                .addOption("List students with average marks on screen (students_average.xml)",this::listStudents)
                 .show();
     }
+
+
 
     private void addStudentsOption() {
         List<Student> students = studentInputService.getStudentsFromInput();
@@ -45,6 +53,16 @@ public class MenuManager {
             printSuccess("Archivo con medias creado correctamente");
         } else {
             printError("Error al crear archivo con medias");
+        }
+    }
+
+    private void listStudents() {
+        List<Student> students = listStudentsHandler.handle();
+        if (students.isEmpty()) {
+            printError("No hay estudiantes para mostrar");
+        } else {
+            students.forEach(System.out::println);
+            printSuccess("Listado de estudiantes mostrado correctamente");
         }
     }
 

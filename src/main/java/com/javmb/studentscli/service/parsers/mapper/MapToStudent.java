@@ -6,6 +6,13 @@ import java.util.Map;
 public final class MapToStudent {
     private MapToStudent() { }
 
+    /**
+     * Convierte un mapa de datos en un objeto Student.
+     *
+     * @param m mapa con los datos del estudiante
+     * @return objeto Student creado a partir del mapa
+     * @throws NumberFormatException si los datos numéricos no son válidos
+     */
     public static Student fromMap(Map<String, String> m) {
         return Student.builder()
             .id(Integer.parseInt(m.get("id")))

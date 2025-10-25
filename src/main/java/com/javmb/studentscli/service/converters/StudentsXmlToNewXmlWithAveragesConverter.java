@@ -15,6 +15,13 @@ import java.util.Locale;
 @Slf4j
 public class StudentsXmlToNewXmlWithAveragesConverter implements StudentsConverter {
 
+    /**
+     * Convierte un archivo XML de estudiantes añadiendo el campo markAverage calculado.
+     *
+     * @param inputFilePath  ruta del archivo XML de entrada
+     * @param outputFilePath ruta del archivo XML de salida
+     * @throws XmlConversionException si ocurre un error durante la conversión
+     */
     @Override
     public void convert(String inputFilePath, String outputFilePath) {
         try {

@@ -21,6 +21,11 @@ public class CreateFileWithAverageMarksHandler {
         this.studentsConverter = studentsConverter;
     }
 
+    /**
+     * Crea un archivo XML con las notas promedio de los estudiantes.
+     *
+     * @return true si el archivo se creó exitosamente, false en caso contrario
+     */
     public boolean handle() {
         try {
             studentsConverter.convert(config.getFiles().getStudentsXml(), config.getFiles().getStudentsAvgXml());

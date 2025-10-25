@@ -17,6 +17,13 @@ import java.nio.file.Path;
 @Slf4j
 public class CsvToXmlStudentsConverter implements StudentsConverter {
 
+    /**
+     * Convierte un archivo CSV de estudiantes a formato XML.
+     *
+     * @param inputFilePath  ruta del archivo CSV de entrada
+     * @param outputFilePath ruta del archivo XML de salida
+     * @throws CsvToXmlException si ocurre un error durante la conversión
+     */
     @Override
     public void convert(String inputFilePath, String outputFilePath) {
         try (var reader = Files.newBufferedReader(Path.of(inputFilePath))) {

@@ -20,6 +20,12 @@ import java.util.Map;
 public class ListStudentsAndAveragesHandler {
     private final Config config;
 
+    /**
+     * Obtiene la lista de estudiantes con sus promedios desde el archivo XML.
+     *
+     * @return lista de estudiantes con sus notas promedio
+     * @throws XmlParseException si ocurre un error al parsear el XML
+     */
     public List<Student> handle() {
         try {
             List<Map<String, String>> maps = new ArrayList<>();

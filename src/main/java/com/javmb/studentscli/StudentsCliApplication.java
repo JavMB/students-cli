@@ -23,6 +23,5 @@ public class StudentsCliApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         menuManager.showMainMenu();
-
     }
 }
