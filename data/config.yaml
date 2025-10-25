@@ -1,1 +1,6 @@
+# Configuración de usuario para pruebas
+app:
+  mark:
+    min: 2.5
+    max: 9.2
 

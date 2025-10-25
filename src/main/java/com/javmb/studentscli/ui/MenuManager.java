@@ -4,6 +4,7 @@ import com.javmb.studentscli.model.Student;
 import com.javmb.studentscli.ui.handlers.AddStudentsViaDomHandler;
 import com.javmb.studentscli.ui.handlers.CreateFileWithAverageMarksHandler;
 import com.javmb.studentscli.ui.handlers.ListStudentsAndAveragesHandler;
+import com.javmb.studentscli.ui.handlers.LoadUserConfigHandler;
 import com.javmb.studentscli.service.input.StudentInputService;
 import com.javmb.studentscli.util.lib.ConsoleMenu;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class MenuManager {
     private final AddStudentsViaDomHandler addStudentsHandler;
     private final CreateFileWithAverageMarksHandler avgMarksHandler;
     private final ListStudentsAndAveragesHandler listStudentsHandler;
-    private final 
+    private final LoadUserConfigHandler loadUserConfigHandler;
     private final StudentInputService studentInputService;
 
     /**
@@ -40,8 +41,13 @@ public class MenuManager {
     }
 
     private void loadConfig() {
-          studentInputService.readStudentConfigPath();
-
+        String path = studentInputService.readStudentConfigPath();
+        boolean ok = loadUserConfigHandler.handle(path);
+        if (ok) {
+            printSuccess("Configuración cargada correctamente");
+        } else {
+            printError("Error al cargar la configuración");
+        }
     }
 
 

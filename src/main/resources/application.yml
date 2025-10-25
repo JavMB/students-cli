@@ -14,8 +14,6 @@ app:
   mark:
     min: 0.0
     max: 10.0
-  validation:
-    enabled: true
   files:
     students-csv: data/students.csv
     students-xml: data/students.xml

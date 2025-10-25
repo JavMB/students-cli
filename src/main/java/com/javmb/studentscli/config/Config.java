@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class Config {
     private Mark mark;
-    private Validation validation;
     private Files files;
 
     @Data
@@ -20,11 +19,6 @@ public class Config {
         private double min = 0.0;
         @Max(10)
         private double max = 10.0;
-    }
-
-    @Data
-    public static class Validation {
-        private boolean enabled = true;
     }
 
     @Data

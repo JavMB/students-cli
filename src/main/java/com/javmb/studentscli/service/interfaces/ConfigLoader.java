@@ -7,6 +7,4 @@ public interface ConfigLoader {
 
     void load(Path path) throws IOException;
 
-    String get(String key);
-
 }

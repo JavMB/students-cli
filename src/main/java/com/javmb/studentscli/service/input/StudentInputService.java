@@ -2,7 +2,7 @@ package com.javmb.studentscli.service.input;
 
 import com.javmb.studentscli.exception.InvalidMarkException;
 import com.javmb.studentscli.model.Student;
-import com.javmb.studentscli.util.InputValidator;
+import com.javmb.studentscli.util.StudentsInputValidator;
 import com.javmb.studentscli.util.lib.IO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentInputService {
     private static final int EXIT_ID = 0;
-    private final InputValidator inputValidator;
+    private final StudentsInputValidator studentsInputValidator;
 
     public List<Student> getStudentsFromInput() {
         List<Student> students = new ArrayList<>();
@@ -59,8 +59,8 @@ public class StudentInputService {
 
     private double readAndValidateMark(String message) {
         double mark = IO.readDouble(message);
-        if (!inputValidator.isValidMark(mark)) {
-            throw new InvalidMarkException(String.format("La nota %.2f no está en el rango permitido. %s", mark, inputValidator.getMarkRangeInfo()));
+        if (!studentsInputValidator.isValidMark(mark)) {
+            throw new InvalidMarkException(String.format("La nota %.2f no está en el rango permitido.", mark));
         }
         return mark;
     }
@@ -68,20 +68,19 @@ public class StudentInputService {
     private String readStudentName() {
         while (true) {
             String name = IO.readNonEmptyString("Nombre completo: ").trim();
-            if (inputValidator.isValidName(name)) {
+            if (studentsInputValidator.isValidName(name)) {
                 return name;
             }
             printError("El nombre no puede ser solo números. Intenta de nuevo.");
         }
     }
 
-    private String readStudentConfigPath() {
+    public String readStudentConfigPath() {
         return IO.readNonEmptyString("Ruta del archivo de configuración: ").trim();
     }
 
     private void printHeader() {
         System.out.println("\n=== Añadir Estudiantes ===");
-        System.out.println(inputValidator.getMarkRangeInfo());
         System.out.println();
     }
 
