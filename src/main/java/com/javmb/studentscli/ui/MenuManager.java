@@ -1,8 +1,10 @@
 package com.javmb.studentscli.ui;
 
 import com.javmb.studentscli.model.Student;
+import com.javmb.studentscli.shell.ShellModeService;
 import com.javmb.studentscli.ui.handlers.AddStudentsViaDomHandler;
 import com.javmb.studentscli.ui.handlers.CreateFileWithAverageMarksHandler;
+import com.javmb.studentscli.ui.handlers.ExportUserConfigHandler;
 import com.javmb.studentscli.ui.handlers.ListStudentsAndAveragesHandler;
 import com.javmb.studentscli.ui.handlers.LoadUserConfigHandler;
 import com.javmb.studentscli.service.input.StudentInputService;
@@ -26,7 +28,9 @@ public class MenuManager {
     private final CreateFileWithAverageMarksHandler avgMarksHandler;
     private final ListStudentsAndAveragesHandler listStudentsHandler;
     private final LoadUserConfigHandler loadUserConfigHandler;
+    private final ExportUserConfigHandler exportUserConfigHandler;
     private final StudentInputService studentInputService;
+    private final ShellModeService shellModeService;
 
     /**
      * Muestra el menú principal de la aplicación.
@@ -37,6 +41,8 @@ public class MenuManager {
                 .addOption("Create file with average marks", this::createAveragesOption)
                 .addOption("List students with average marks on screen (students_average.xml)",this::listStudents)
                 .addOption("Load config",this::loadConfig)
+                .addOption("Export config options", this::exportConfig)
+                .addOption("Enter Shell Mode (CLI interactive)", this::enterShellMode)
                 .show();
     }
 
@@ -76,6 +82,20 @@ public class MenuManager {
             students.forEach(System.out::println);
             printSuccess("Listado de estudiantes mostrado correctamente");
         }
+    }
+
+    private void exportConfig() {
+        String path = studentInputService.readStudentConfigPath();
+        boolean ok = exportUserConfigHandler.handle(path);
+        if (ok) {
+            printSuccess("Configuración exportada correctamente");
+        } else {
+            printError("No se pudo exportar la configuración");
+        }
+    }
+
+    private void enterShellMode() {
+        shellModeService.startInteractiveMode();
     }
 
 
